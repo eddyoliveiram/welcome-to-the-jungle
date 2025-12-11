@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">✏️ Editar Comentário</h4>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-light border mb-4">
+            <strong>Post:</strong> {{ comment.post.title }}
+          </div>
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="{{ form.content.id_for_label }}" class="form-label">Comentário</label>
+              <textarea name="content" class="form-control {% if form.content.errors %}is-invalid{% endif %}" 
+                        rows="6" required>{{ form.content.value|default:'' }}</textarea>
+              {% if form.content.errors %}
+                <div class="invalid-feedback d-block">{{ form.content.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary">💾 Salvar</button>
+              <a href="/" class="btn btn-secondary">Cancelar</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

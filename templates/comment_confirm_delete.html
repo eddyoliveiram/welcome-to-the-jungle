@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card border-danger">
+        <div class="card-header bg-danger text-white">
+          <h4 class="mb-0">⚠️ Confirmar Exclusão de Comentário</h4>
+        </div>
+        <div class="card-body">
+          <p class="lead">Tem certeza que deseja deletar este comentário?</p>
+          <div class="alert alert-light border">
+            <strong>Post:</strong> {{ comment.post.title }}<br>
+            <strong>Comentário:</strong> {{ comment.content|truncatewords:20 }}
+          </div>
+          <p class="text-muted">Esta ação não pode ser desfeita.</p>
+
+          <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-danger">🗑️ Deletar Permanentemente</button>
+              <a href="/" class="btn btn-secondary">Cancelar</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

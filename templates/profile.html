@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h1 class="display-5 fw-bold">👤 Meu Perfil</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Informações Pessoais</h5>
+        </div>
+        <div class="card-body">
+          <p class="mb-2">
+            <strong>Usuário:</strong><br>
+            <span class="badge bg-primary">{{ user.username }}</span>
+          </p>
+          <p class="mb-2">
+            <strong>Nome:</strong><br>
+            {{ user.get_full_name|default:user.username }}
+          </p>
+          <p class="mb-0">
+            <strong>Email:</strong><br>
+            <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+          </p>
+        </div>
+      </div>
+
+      <a href="{% url 'post_create' %}" class="btn btn-primary w-100 mb-2">
+        ➕ Criar Novo Post
+      </a>
+      <a href="/" class="btn btn-secondary w-100">
+        ← Voltar ao Blog
+      </a>
+    </div>
+
+    <div class="col-md-8">
+      <h3 class="mb-4">📚 Meus Posts ({{ posts.count }})</h3>
+      {% if posts %}
+        <div class="list-group">
+          {% for post in posts %}
+            <div class="list-group-item">
+              <div class="d-flex w-100 justify-content-between align-items-start">
+                <div class="flex-grow-1">
+                  <h5 class="mb-1">{{ post.title }}</h5>
+                  <p class="text-muted mb-2">{{ post.created_at|date:"d/m/Y H:i" }}</p>
+                  <p class="mb-0">{{ post.content|truncatewords:20 }}</p>
+                </div>
+              </div>
+              <div class="mt-2">
+                <a href="{% url 'post_edit' post.pk %}" class="btn btn-sm btn-warning">✏️ Editar</a>
+                <a href="{% url 'post_delete' post.pk %}" class="btn btn-sm btn-danger">🗑️ Deletar</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="alert alert-info text-center py-5">
+          <p class="mb-0">Você ainda não criou nenhum post.</p>
+          <a href="{% url 'post_create' %}" class="btn btn-primary mt-3">Criar Primeiro Post</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
